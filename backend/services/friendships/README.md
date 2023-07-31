@@ -31,6 +31,7 @@ const AmistadSchema = new mongoose.Schema({
         trim: true,
     },
 });
+```
 
 - Esta clase representa una "Amistad" como una cosa.
 - Encapsula los datos relacionados con una amistad, como "id", "usuario1" y "usuario2".
@@ -61,6 +62,7 @@ const SolicitudDeAmistadSchema = new mongoose.Schema({
         trim: true,
     },
 });
+```
 
 - Esta clase representa una "Solicitud de Amistad" como una cosa.
 - Encapsula los datos relacionados con una solicitud de amistad, como el "IDRemitente", "IDDestinatario" y "EstadoDeSolicitud".
