@@ -12,10 +12,10 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 app.use(cors())
 app.use(express.json());
 app.use(
-  fileUpload({
-    useTempFiles: true,
-    tempFileDir: "./upload",
-  })
+    fileUpload({
+        useTempFiles: true,
+        tempFileDir: "./upload",
+    })
 );
 
 // routes

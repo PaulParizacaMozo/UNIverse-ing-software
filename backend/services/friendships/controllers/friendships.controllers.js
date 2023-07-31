@@ -51,7 +51,6 @@ export const acceptFriendRequest = (req, res) => {
             if (!friendRequest || friendRequest.EstadoDeSolicitud !== "Pendiente") {
                 return res.status(404).json({ message: "Solicitud de amistad no encontrada o no está pendiente" });
             }
-
             friendRequest.EstadoDeSolicitud = "Aceptada";
             return friendRequest.save();
         })
@@ -79,7 +78,6 @@ export const rejectFriendRequest = (req, res) => {
             if (!friendRequest || friendRequest.EstadoDeSolicitud !== "Pendiente") {
                 return res.status(404).json({ message: "Solicitud de amistad no encontrada o no está pendiente" });
             }
-
             friendRequest.EstadoDeSolicitud = "Rechazada";
             return friendRequest.save();
         })
