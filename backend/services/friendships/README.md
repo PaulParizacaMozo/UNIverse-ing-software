@@ -131,7 +131,7 @@ export default app;
 
 ## 3. Estilo de Programación "Tantrum"
 
-En el código, se podría aplica el concepto de diseño por contrato o "tantrum" de la siguiente manera:
+En el código, se aplica el concepto de diseño por contrato o "tantrum" de la siguiente manera:
 
 1. **Verificación de los datos de entrada**: La validación de los datos de entrada (en este caso, el valor de `MONGODB_URI`), al aplicar el estilo de diseño por contrato, se debería verificar si `MONGODB_URI` contiene una cadena de conexión válida a la base de datos antes de intentar conectarse.
     
