@@ -499,7 +499,7 @@ const SolicitudDeAmistad = mongoose.model("SolicitudDeAmistad", SolicitudDeAmist
 export default SolicitudDeAmistad;
 ```
 
-Amistades.Controller.js
+### Amistades.Controller.js
 ```javascript
 import SolicitudDeAmistad from "../models/SolicitudDeAmistadSchema.js";
 
