@@ -602,7 +602,7 @@ En este caso, tenemos dos archivos: uno contiene las funciones que envían, acep
 2. **Archivo `SolicitudDeAmistadSchema.js`:** Este archivo define el esquema y el modelo de datos para las solicitudes de amistad utilizando Mongoose. Su responsabilidad es establecer cómo se estructura y almacena la información de las solicitudes de amistad en la base de datos. Dado que su única responsabilidad es definir la estructura del esquema y el modelo, este archivo también parece cumplir con el principio de Responsabilidad Única.
     
 
-En resumen, ambos archivos parecen cumplir con el principio de Responsabilidad Única, ya que cada uno tiene una responsabilidad única y claramente definida. El archivo `AmistadesController.js` se encarga de la lógica para enviar, aceptar y rechazar solicitudes de amistad, mientras que el archivo `SolicitudDeAmistadSchema.js` se encarga de definir la estructura del esquema y el modelo de datos para las solicitudes de amistad. Mantener las responsabilidades separadas facilita el mantenimiento y la comprensión del código.
+Entonces podemos decir que ambos archivos cumplen con el principio de Responsabilidad Única, ya que cada uno tiene una responsabilidad única y claramente definida. El archivo `AmistadesController.js` se encarga de la lógica para enviar, aceptar y rechazar solicitudes de amistad, mientras que el archivo `SolicitudDeAmistadSchema.js` se encarga de definir la estructura del esquema y el modelo de datos para las solicitudes de amistad. Mantener las responsabilidades separadas facilita el mantenimiento y la comprensión del código.
 
 
 ## 2. D: Dependency Inversion Principle (DIP)
