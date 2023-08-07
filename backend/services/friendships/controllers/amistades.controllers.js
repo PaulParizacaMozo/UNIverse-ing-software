@@ -2,13 +2,13 @@ import SolicitudDeAmistad from "../models/SolicitudDeAmistadSchema.js";
 
 /**
  * Envia una solicitud de amistad.
- * @function sendFriendRequest
+ * @function enviarSolicitudDeAmistad
  * @param {Object} req - Objeto de solicitud de Express.
  * @param {Object} res - Objeto de respuesta de Express.
  * @returns {Promise<void>} - No devuelve ningún valor explícito.
  * @throws {Error} - Si ocurre algún error en el servidor.
  */
-export const sendFriendRequest = (req, res) => {
+export const enviarSolicitudDeAmistad = (req, res) => {
     const { idRemitente, idDestinatario } = req.body;
     SolicitudDeAmistad.findOne({
         IdRemitente: idRemitente,
@@ -38,13 +38,13 @@ export const sendFriendRequest = (req, res) => {
 
 /**
  * Acepta una solicitud de amistad.
- * @function acceptFriendRequest
+ * @function aceptarSolicitudDeAmistad
  * @param {Object} req - Objeto de solicitud de Express.
  * @param {Object} res - Objeto de respuesta de Express.
  * @returns {Promise<void>} - No devuelve ningún valor explícito.
  * @throws {Error} - Si ocurre algún error en el servidor o si la solicitud de amistad no se encuentra o no está pendiente.
  */
-export const acceptFriendRequest = (req, res) => {
+export const aceptarSolicitudDeAmistad = (req, res) => {
     const { id } = req.params;
     SolicitudDeAmistad.findById(id)
         .then(friendRequest => {
@@ -65,13 +65,13 @@ export const acceptFriendRequest = (req, res) => {
 
 /**
  * Rechaza una solicitud de amistad.
- * @function rejectFriendRequest
+ * @function rechazarSolicitudDeAmistad
  * @param {Object} req - Objeto de solicitud de Express.
  * @param {Object} res - Objeto de respuesta de Express.
  * @returns {Promise<void>} - No devuelve ningún valor explícito.
  * @throws {Error} - Si ocurre algún error en el servidor o si la solicitud de amistad no se encuentra o no está pendiente.
  */
-export const rejectFriendRequest = (req, res) => {
+export const rechazarSolicitudDeAmistad = (req, res) => {
     const { id } = req.params;
     SolicitudDeAmistad.findById(id)
         .then(friendRequest => {

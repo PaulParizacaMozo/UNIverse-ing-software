@@ -1,6 +1,6 @@
 import express from "express";
 import fileUpload from "express-fileupload";
-import chatRoutes from "./routes/chat.routes.js";
+import amistadesRoutes from "./routes/amistades.routes.js";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 import cors from 'cors';
@@ -19,7 +19,7 @@ app.use(
 );
 
 // routes
-app.use(chatRoutes);
+app.use(amistadesRoutes);
 console.log(__dirname);
 app.use(express.static(join(__dirname, "../client/build")));
 
