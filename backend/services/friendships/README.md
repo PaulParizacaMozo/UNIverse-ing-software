@@ -102,7 +102,7 @@ El siguiente código muestra cómo configurar una aplicación web utilizando el 
 ```javascript
 import express from "express";
 import fileUpload from "express-fileupload";
-import chatRoutes from "./routes/chat.routes.js";
+import amistadesRoutes from "./routes/amistades.routes.js";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 import cors from 'cors';
@@ -111,17 +111,17 @@ const app = express();
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // middlewares
-app.use(cors());
+app.use(cors())
 app.use(express.json());
 app.use(
-  fileUpload({
-    useTempFiles: true,
-    tempFileDir: "./upload",
-  })
+    fileUpload({
+        useTempFiles: true,
+        tempFileDir: "./upload",
+    })
 );
 
 // routes
-app.use(chatRoutes);
+app.use(amistadesRoutes);
 console.log(__dirname);
 app.use(express.static(join(__dirname, "../client/build")));
 
@@ -178,7 +178,7 @@ La longitud de línea preferida puede variar según la comunidad de desarrollo, 
 ```javascript
 import express from "express";
 import fileUpload from "express-fileupload";
-import chatRoutes from "./routes/chat.routes.js";
+import amistadesRoutes from "./routes/amistades.routes.js";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 import cors from 'cors';
@@ -187,12 +187,17 @@ const app = express();
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // middlewares
-app.use(cors());
+app.use(cors())
 app.use(express.json());
-app.use(fileUpload({ useTempFiles: true, tempFileDir: "./upload" }));
+app.use(
+    fileUpload({
+        useTempFiles: true,
+        tempFileDir: "./upload",
+    })
+);
 
 // routes
-app.use(chatRoutes);
+app.use(amistadesRoutes);
 console.log(__dirname);
 app.use(express.static(join(__dirname, "../client/build")));
 
@@ -251,7 +256,15 @@ Desventajas del Paradigma Procedural:
 - No es tan adecuado para proyectos más grandes y complejos, donde la modularidad y la reutilización son esenciales.
 
 ```javascript
-export const acceptFriendRequest = (req, res) => {
+/**
+ * Acepta una solicitud de amistad.
+ * @function aceptarSolicitudDeAmistad
+ * @param {Object} req - Objeto de solicitud de Express.
+ * @param {Object} res - Objeto de respuesta de Express.
+ * @returns {Promise<void>} - No devuelve ningún valor explícito.
+ * @throws {Error} - Si ocurre algún error en el servidor o si la solicitud de amistad no se encuentra o no está pendiente.
+ */
+export const aceptarSolicitudDeAmistad = (req, res) => {
     const { id } = req.params;
     SolicitudDeAmistad.findById(id)
         .then(friendRequest => {
@@ -269,6 +282,7 @@ export const acceptFriendRequest = (req, res) => {
             res.status(500).json({ message: error.message });
         });
 };
+
 ```
 
 ### Paradigma Orientado a Objetos
@@ -398,7 +412,15 @@ export default SolicitudDeAmistad;
 ```
 
 ```javascript
-export const sendFriendRequest = (req, res) => {
+/**
+ * Envia una solicitud de amistad.
+ * @function enviarSolicitudDeAmistad
+ * @param {Object} req - Objeto de solicitud de Express.
+ * @param {Object} res - Objeto de respuesta de Express.
+ * @returns {Promise<void>} - No devuelve ningún valor explícito.
+ * @throws {Error} - Si ocurre algún error en el servidor.
+ */
+export const enviarSolicitudDeAmistad = (req, res) => {
     const { idRemitente, idDestinatario } = req.body;
     SolicitudDeAmistad.findOne({
         IdRemitente: idRemitente,
@@ -426,3 +448,196 @@ export const sendFriendRequest = (req, res) => {
         });
 };
 ```
+
+# Laboratorio 11: Principios SOLID
+## 1. S: Single Responsibility Principle (SRP)
+
+El Principio de Responsabilidad Única (Single Responsibility Principle - SRP) es uno de los pilares fundamentales de los principios SOLID en ingeniería de software. Este principio se centra en asegurar que cada clase o módulo tenga una única responsabilidad o tarea específica.
+
+La idea detrás del SRP es que una clase debe ser responsable de una única funcionalidad o característica dentro del sistema. Si una clase tiene múltiples responsabilidades, esto puede llevar a un código confuso, difícil de mantener y propenso a errores. Por lo tanto, es recomendable dividir esas responsabilidades en diferentes clases, cada una de ellas encargada de una tarea específica.
+
+Beneficios del SRP:
+
+1. **Mantenibilidad:** Al tener clases con responsabilidades únicas, el código se vuelve más fácil de entender y modificar. Si una clase necesita cambios, se puede enfocar únicamente en la lógica relacionada a su responsabilidad, sin afectar otras partes del sistema.
+    
+2. **Reutilización:** Al separar las responsabilidades, los componentes se vuelven más modulares, lo que facilita la reutilización en otros lugares del sistema o en proyectos futuros.
+    
+3. **Testabilidad:** Las clases con responsabilidades únicas tienden a ser más fáciles de probar, ya que sus funcionalidades están bien delimitadas y se pueden crear pruebas más específicas para cada una de ellas.
+    
+4. **Claridad y comprensión:** Un diseño basado en el SRP mejora la legibilidad del código, ya que cada clase tiene un propósito claro y bien definido, lo que facilita a otros desarrolladores entender rápidamente su función y responsabilidad.
+    
+
+Sin embargo, es importante tener en cuenta que aplicar el SRP no significa crear una gran cantidad de clases extremadamente pequeñas para cada tarea trivial. Debe haber un equilibrio y sentido común en el diseño. El objetivo es dividir las responsabilidades de forma lógica y coherente, agrupando funcionalidades relacionadas y evitando la mezcla de tareas inconexas.
+
+Un enfoque útil para identificar si una clase viola el SRP es utilizar la técnica de "la prueba del cambio". Si una modificación en un requisito o funcionalidad requiere cambios en múltiples lugares dentro de la misma clase, es probable que esa clase tenga más de una responsabilidad y deba dividirse en clases más pequeñas y cohesivas.
+
+### SolicitudDeAmistadSchema.js
+
+```javascript
+import mongoose from "mongoose";
+
+const SolicitudDeAmistadSchema = new mongoose.Schema({
+    IDRemitente: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Usuario",
+        required: true,
+        trim: true,
+    },
+    IDDestinatario: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Usuario",
+        required: true,
+        trim: true,
+    },
+    EstadoDeSolicitud: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+});
+const SolicitudDeAmistad = mongoose.model("SolicitudDeAmistad", SolicitudDeAmistadSchema);
+export default SolicitudDeAmistad;
+```
+
+Amistades.Controller.js
+```javascript
+import SolicitudDeAmistad from "../models/SolicitudDeAmistadSchema.js";
+
+/**
+ * Envia una solicitud de amistad.
+ * @function enviarSolicitudDeAmistad
+ * @param {Object} req - Objeto de solicitud de Express.
+ * @param {Object} res - Objeto de respuesta de Express.
+ * @returns {Promise<void>} - No devuelve ningún valor explícito.
+ * @throws {Error} - Si ocurre algún error en el servidor.
+ */
+export const enviarSolicitudDeAmistad = (req, res) => {
+    const { idRemitente, idDestinatario } = req.body;
+    SolicitudDeAmistad.findOne({
+        IdRemitente: idRemitente,
+        IdDestinatario: idDestinatario,
+    })
+        .then(existingRequest => {
+            if (existingRequest) {
+                return res.status(400).json({ message: "Ya se ha enviado una solicitud de amistad" });
+            }
+
+            const newFriendRequest = new SolicitudDeAmistad({
+                IdRemitente: idRemitente,
+                IdDestinatario: idDestinatario,
+                EstadoDeSolicitud: "Pendiente",
+            });
+
+            return newFriendRequest.save();
+        })
+        .then(newFriendRequest => {
+            res.status(201).json(newFriendRequest);
+        })
+        .catch(error => {
+            console.log(error.message);
+            res.status(500).json({ message: error.message });
+        });
+};
+
+/**
+ * Acepta una solicitud de amistad.
+ * @function aceptarSolicitudDeAmistad
+ * @param {Object} req - Objeto de solicitud de Express.
+ * @param {Object} res - Objeto de respuesta de Express.
+ * @returns {Promise<void>} - No devuelve ningún valor explícito.
+ * @throws {Error} - Si ocurre algún error en el servidor o si la solicitud de amistad no se encuentra o no está pendiente.
+ */
+export const aceptarSolicitudDeAmistad = (req, res) => {
+    const { id } = req.params;
+    SolicitudDeAmistad.findById(id)
+        .then(friendRequest => {
+            if (!friendRequest || friendRequest.EstadoDeSolicitud !== "Pendiente") {
+                return res.status(404).json({ message: "Solicitud de amistad no encontrada o no está pendiente" });
+            }
+            friendRequest.EstadoDeSolicitud = "Aceptada";
+            return friendRequest.save();
+        })
+        .then(() => {
+            res.json({ message: "Solicitud de amistad aceptada exitosamente" });
+        })
+        .catch(error => {
+            console.log(error.message);
+            res.status(500).json({ message: error.message });
+        });
+};
+
+/**
+ * Rechaza una solicitud de amistad.
+ * @function rechazarSolicitudDeAmistad
+ * @param {Object} req - Objeto de solicitud de Express.
+ * @param {Object} res - Objeto de respuesta de Express.
+ * @returns {Promise<void>} - No devuelve ningún valor explícito.
+ * @throws {Error} - Si ocurre algún error en el servidor o si la solicitud de amistad no se encuentra o no está pendiente.
+ */
+export const rechazarSolicitudDeAmistad = (req, res) => {
+    const { id } = req.params;
+    SolicitudDeAmistad.findById(id)
+        .then(friendRequest => {
+            if (!friendRequest || friendRequest.EstadoDeSolicitud !== "Pendiente") {
+                return res.status(404).json({ message: "Solicitud de amistad no encontrada o no está pendiente" });
+            }
+            friendRequest.EstadoDeSolicitud = "Rechazada";
+            return friendRequest.save();
+        })
+        .then(() => {
+            res.json({ message: "Solicitud de amistad rechazada exitosamente" });
+        })
+        .catch(error => {
+            console.log(error.message);
+            res.status(500).json({ message: error.message });
+        });
+};
+
+```
+
+En este caso, tenemos dos archivos: uno contiene las funciones que envían, aceptan y rechazan solicitudes de amistad, mientras que el otro define el esquema y el modelo de datos para las solicitudes de amistad. Veamos si cada archivo cumple con el SRP:
+
+1. **Archivo `AmistadesController.js`:** Este archivo contiene tres funciones relacionadas con la gestión de solicitudes de amistad: `enviarSolicitudDeAmistad`, `aceptarSolicitudDeAmistad` y `rechazarSolicitudDeAmistad`. Cada función tiene una responsabilidad única, que es manejar la lógica específica para enviar, aceptar o rechazar una solicitud de amistad. Por lo tanto, este archivo parece cumplir con el principio de Responsabilidad Única, ya que cada función se centra en una tarea específica.
+    
+2. **Archivo `SolicitudDeAmistadSchema.js`:** Este archivo define el esquema y el modelo de datos para las solicitudes de amistad utilizando Mongoose. Su responsabilidad es establecer cómo se estructura y almacena la información de las solicitudes de amistad en la base de datos. Dado que su única responsabilidad es definir la estructura del esquema y el modelo, este archivo también parece cumplir con el principio de Responsabilidad Única.
+    
+
+En resumen, ambos archivos parecen cumplir con el principio de Responsabilidad Única, ya que cada uno tiene una responsabilidad única y claramente definida. El archivo `AmistadesController.js` se encarga de la lógica para enviar, aceptar y rechazar solicitudes de amistad, mientras que el archivo `SolicitudDeAmistadSchema.js` se encarga de definir la estructura del esquema y el modelo de datos para las solicitudes de amistad. Mantener las responsabilidades separadas facilita el mantenimiento y la comprensión del código.
+
+
+## 2. D: Dependency Inversion Principle (DIP)
+
+El principio de Inversión de Dependencia establece que los módulos de alto nivel no deben depender de módulos de bajo nivel, sino que ambos deben depender de abstracciones. Además, las abstracciones no deben depender de detalles, sino que los detalles deben depender de abstracciones.
+
+```javascript
+import dotenv from 'dotenv'
+
+dotenv.config();
+
+export const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/testdb";
+export const PORT = process.env.PORT || 4000;
+```
+
+```javascript
+import mongoose from "mongoose";
+import { MONGODB_URI } from "./config.js";
+
+export async function connectDB() {
+    try {
+        mongoose.set("strictQuery", true);
+        const db = await mongoose.connect(MONGODB_URI);
+        console.log(`Connected to database: ${db.connection.name}`);
+    }  
+    catch (error) {
+        console.log(error);
+    }
+}
+```
+
+En el código, podemos identificar los siguientes puntos relacionados con DIP:
+
+1. Abstracción de la base de datos: La función connectDB no se enfoca en los detalles específicos de la implementación de la base de datos MongoDB. En cambio, utiliza la abstracción proporcionada por la biblioteca Mongoose para establecer la conexión. De esta manera, el código no está directamente acoplado a los detalles de cómo se implementa la conexión, lo que facilita el cambio de la base de datos en el futuro si fuera necesario.
+
+2. Utilización de una constante de configuración: La cadena de conexión a la base de datos, MONGODB_URI, se obtiene desde un módulo de configuración externo, llamado config.js. Al hacer esto, el código no está directamente acoplado a la cadena de conexión, lo que facilita el cambio de la configuración de la base de datos sin tener que modificar la función connectDB en sí misma.
+
+Al utilizar abstracciones y depender de interfaces en lugar de detalles concretos, este código sigue el principio de Inversión de Dependencia, lo que lo hace más flexible y mantenible en el futuro, ya que los cambios en la implementación o configuración de la base de datos pueden realizarse sin afectar la lógica de la función connectDB.
