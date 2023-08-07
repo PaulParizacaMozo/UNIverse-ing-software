@@ -641,3 +641,5 @@ En el código, podemos identificar los siguientes puntos relacionados con DIP:
 2. Utilización de una constante de configuración: La cadena de conexión a la base de datos, MONGODB_URI, se obtiene desde un módulo de configuración externo, llamado config.js. Al hacer esto, el código no está directamente acoplado a la cadena de conexión, lo que facilita el cambio de la configuración de la base de datos sin tener que modificar la función connectDB en sí misma.
 
 Al utilizar abstracciones y depender de interfaces en lugar de detalles concretos, este código sigue el principio de Inversión de Dependencia, lo que lo hace más flexible y mantenible en el futuro, ya que los cambios en la implementación o configuración de la base de datos pueden realizarse sin afectar la lógica de la función connectDB.
+
+
